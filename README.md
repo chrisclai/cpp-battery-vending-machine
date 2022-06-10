@@ -7,3 +7,4 @@ See below for list of folders and what they should contain throughout developemn
 - **src**: Source code files, unofficial scripts that are undergoing integration
 - **libs**: Libraries and supporting functions that are used in the official code
 - **test**: Seperate code snippets to test specific concepts before integration
+- **docs**: Documentation (Images, Videos, PDF) for the project
