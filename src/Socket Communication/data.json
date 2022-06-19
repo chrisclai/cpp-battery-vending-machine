@@ -3,29 +3,29 @@
 	"Battery Data": [
 		{
 			"ID": "1",
-			"Capacity": "90%",
-			"Energy": "20wH",
-			"Charge Capacity": "50mAh",
-			"Temperature": "97C",
-			"BMS Health": "98%",
-			"Total Voltage": "100V",
-			"Cell 1 Voltage": "91V",
-			"Cell 2 Voltage": "92V",
-			"Cell 3 Voltage": "93V",
-			"Cell 4 Voltage": "94V"
+			"Capacity": "90",
+			"Energy": "20",
+			"Charge Capacity": "50",
+			"Temperature": "97",
+			"BMS Health": "98",
+			"Total Voltage": "100",
+			"Cell 1 Voltage": "91",
+			"Cell 2 Voltage": "92",
+			"Cell 3 Voltage": "93",
+			"Cell 4 Voltage": "94"
 		},
 		{
 			"ID": "2",
-			"Capacity": "87%",
-			"Energy": "50wH",
-			"Charge Capacity": "80mAh",
-			"Temperature": "85C",
-			"BMS Health": "91%",
-			"Total Voltage": "92V",
-			"Cell 1 Voltage": "87V",
-			"Cell 2 Voltage": "88V",
-			"Cell 3 Voltage": "95V",
-			"Cell 4 Voltage": "90V"
+			"Capacity": "87",
+			"Energy": "50",
+			"Charge Capacity": "80",
+			"Temperature": "85",
+			"BMS Health": "91",
+			"Total Voltage": "92",
+			"Cell 1 Voltage": "87",
+			"Cell 2 Voltage": "88",
+			"Cell 3 Voltage": "95",
+			"Cell 4 Voltage": "90"
 		}
 	]
 }
