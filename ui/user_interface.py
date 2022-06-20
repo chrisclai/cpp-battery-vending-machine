@@ -4,7 +4,7 @@ import tkinter as tk
 
 # TKINTER DEFAULT VARIABLES
 HEIGHT = 650
-WIDTH = 900
+WIDTH = 906
 REFRESH_RATE = 50
 OFFSET= 25
 VALUE_OFFSET = 60
@@ -37,14 +37,14 @@ total_title = tk.Label(main_canv, text="Total BMS Data", font=('courier new',15)
 total_title.place(relx=0.84,rely=0.2,anchor='center')
 
 # CANVAS
-battery_canv_left = tk.Canvas(main_canv, width=275, height=490, highlightthickness=0, bg='royalblue4')   
-battery_canv_left.place(x=10, y=150, anchor='nw')
+battery_canv_left = tk.Canvas(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
+battery_canv_left.place(x=15, y=150, anchor='nw')
 
-total_canv_right = tk.Canvas(main_canv, width=275, height=490, highlightthickness=0, bg='royalblue4')   
-total_canv_right.place(x=615, y=150, anchor='nw')
+total_canv_right = tk.Canvas(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
+total_canv_right.place(x=635, y=150, anchor='nw')
 
-camera_canv = tk.Canvas(main_canv, width=323, height=300, highlightthickness=0, bg='royalblue4')   
-camera_canv.place(x=288, y=150, anchor='nw')
+camera_canv = tk.Canvas(main_canv, width=333, height=300, highlightthickness=0, bg='royalblue4')   
+camera_canv.place(x=287, y=150, anchor='nw')
 
 # PLACEHOLDER TEXT FOR CAMERA DISPLAY 
 camera_title = tk.Label(main_canv, text="Placeholder for camera display", font=('courier new',10), justify='center', bg='midnightblue', fg='white')
