@@ -20,6 +20,22 @@ main_canv = tk.Canvas(root, height=HEIGHT, width=WIDTH, bg='midnightblue', highl
 main_canv.pack()
 main_canv.focus_set()
 
+# FRAMES
+b1 = tk.Frame(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
+b1.place(x=15, y=150, anchor='nw')
+
+b2 = tk.Frame(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
+b2.place(x=15, y=150, anchor='nw')
+
+b3 = tk.Frame(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
+b3.place(x=15, y=150, anchor='nw')
+
+b4 = tk.Frame(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
+b4.place(x=15, y=150, anchor='nw')
+
+b5 = tk.Frame(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
+b5.place(x=15, y=150, anchor='nw')
+
 # LABEL
 title = tk.Label(main_canv, text="CPP Battery Vending Machine", font=('verdana',25,'bold'), justify='center', bg='midnightblue', fg='#149dca')
 title.place(relx=0.5,rely=0.05,anchor='center')
@@ -35,6 +51,9 @@ battery_title.place(relx=0.155,rely=0.2,anchor='center')
 
 total_title = tk.Label(main_canv, text="Total BMS Data", font=('courier new',15), justify='center', bg='midnightblue', fg='white')
 total_title.place(relx=0.84,rely=0.2,anchor='center')
+
+b1_title = tk.Label(b1, text="Total BMS Data", font=('courier new',15), justify='center', bg='midnightblue', fg='white')
+b1_title.place(x=15, y=150, anchor='center')
 
 # CANVAS
 battery_canv_left = tk.Canvas(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
@@ -59,6 +78,13 @@ button_retrieve.place(relx=0.603,rely=0.78,anchor='center')
 
 button_exit = tk.Button(main_canv, command= root.destroy, width = 17, height = 2, highlightthickness=0, bg='royalblue', text = "EXIT", font = ('courier new', 10), fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
 button_exit.place(relx=0.503,rely=0.9,anchor='center')
+
+    # NOTE : PLACEHOLDER COMMANDS FOR ARROW BUTTONS
+button_right = tk.Button(main_canv, command= root.destroy, width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "-->",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
+button_right.place(relx=0.265,rely= 0.94,anchor='center')
+
+button_left = tk.Button(main_canv, command= root.destroy, width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "<--",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
+button_left.place(relx=0.049,rely= 0.94,anchor='center')
 
 # SHOW ACTUAL WINDOW
 root.mainloop()
