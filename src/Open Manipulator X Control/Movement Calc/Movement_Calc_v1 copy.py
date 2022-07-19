@@ -1,4 +1,5 @@
 import math
+from tkinter import E, S
 
 #reference link:
 #https://pdfs.semanticscholar.org/56a0/9731772199fe77bcb0dbff3a69f1c623e0c7.pdf
@@ -14,8 +15,18 @@ ELBOW_OFFSET = 225                                              # Offset between
 WRIST_OFFSET = 180                                              # Offset between the theoretical theta4 and actual base angle value 
 
 ELBOW_W_OFFSET = 10                                             # Offset for the elbow motor to account for the weight pulling the forearm down
+OUT_OF_RANGE_F = 0
 
-def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                  # coor[] = [Px, Py, Pz]
+BASE_H_LIMIT = 135                                              # Upper Physical Limit of the Base Motor Theoretical Value
+BASE_L_LIMIT = -135
+SHOULDER_H_LIMIT = 180
+SHOULDER_L_LIMIT = 0
+ELBOW_H_LIMIT = 0
+ELBOW_L_LIMIT = -180
+WRIST_H_LIMIT = 90
+WRIST_L_LIMIT = -90
+
+def angle_Calc(coor, CLAW_MODE):                        # coor[] = [Px, Py, Pz]
     if (CLAW_MODE == 0):
         phi = 0                                                 # claw parallel to the ground
     elif (CLAW_MODE == 1):
@@ -41,7 +52,7 @@ def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                  # coor[] = [Px, 
         print("cosTheta3 = "+ str(cosTheta3) + "\n")
         theta3 = math.acos(cosTheta3)                           # theta3 = arccos(cos_theta3)
         print("theta3 = "+ str(theta3) + "\n")
-        return math.degrees(theta3), theta3
+        return -math.degrees(theta3), -theta3                   # Elbow motor motion is only physically posibble with negative theta3 value [-180, 0]
 
     def shoulder_Theta(theta3_R):
         
@@ -56,20 +67,41 @@ def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                  # coor[] = [Px, 
 
     baseTheta, baseTheta_R = base_Theta()   
     Theta3, Theta3_R = elbow_Theta()
-    if (FOREARM_MODE == 0):                                     # forearm_mode = 0 -> negative theta3 (forearm points down)
-        Theta3 = -Theta3                                        # forearm_mode = 1 -> positive theta3 (forearm points up)
-        Theta3_R = -Theta3_R
-    elbowTheta = Theta3 - 11
+    elbowTheta = Theta3 - 11                                     # (-90< elbowTheta <0) -> Forearm up # (-180< Theta3 <-90) -> Forearm down
     Theta2, Theta2_R = shoulder_Theta(Theta3_R)
     shoulderTheta = Theta2 + 11
     wristTheta = phi - elbowTheta - shoulderTheta
     print("theta4 = "+ str(wristTheta) + "\n")
 
-    return [int(baseTheta+BASE_OFFSET), int(shoulderTheta+SHOUDLER_OFFSET), int(elbowTheta+ELBOW_OFFSET+ELBOW_W_OFFSET), int(wristTheta+WRIST_OFFSET)]
+    if ((baseTheta < BASE_L_LIMIT) or (baseTheta > BASE_H_LIMIT)):                                                           # setting physical range limit for baseTheta [-135, 135]
+        print("Base angle calculated (%s) is out of physical range [-135, 135]" % (baseTheta))              
+        OUT_OF_RANGE_F = 1
+    elif ((shoulderTheta < SHOULDER_L_LIMIT) or (shoulderTheta > SHOULDER_H_LIMIT)):
+        print("Shoulder angle calculated (%s) is out of physical range [0, 180]" % (shoulderTheta))         # setting physical range limit for shoulderTheta [0, 180]
+        OUT_OF_RANGE_F = 1
+    elif ((elbowTheta > ELBOW_H_LIMIT) or (elbowTheta < ELBOW_L_LIMIT)):
+        print("Elbow angle calculated (%s) is out of physical range [-180, 0]" % (elbowTheta))            # setting physical range limit for elbowTheta [-180, 0]
+        OUT_OF_RANGE_F = 1   
+    elif ((wristTheta > WRIST_H_LIMIT) or (wristTheta < WRIST_L_LIMIT)):
+        print("Wrist angle calculated (%s) is out of physical range [-90, 90]" % (wristTheta))              # setting physical range limit for wristTheta [-90, 90]
+        OUT_OF_RANGE_F = 1
+    else:
+        OUT_OF_RANGE_F = 0
+    
+    print("[%s, %s, %s, %s]" % (int(baseTheta), int(shoulderTheta), int(elbowTheta), int(wristTheta)))
+
+    if (OUT_OF_RANGE_F):
+        return 0
+    else:
+        return [int(baseTheta+BASE_OFFSET), int(shoulderTheta+SHOUDLER_OFFSET), int(elbowTheta+ELBOW_OFFSET+ELBOW_W_OFFSET), int(wristTheta+WRIST_OFFSET)]
 
 if __name__ == "__main__":
     #angle for the rest position of the arm
     #angle1 = angle_Calc([275, 0, 205], 0, 0)
 
-    angle1 = angle_Calc([205, -70, 215], 0, 2)
+    #Test coordinate #1: first quadrant, smaller x, higher z
+    #angle1 = angle_Calc([205, -70, 215], 2)
+
+    #Test coordinate #2: second quadrant, larger x, lower z
+    angle1 = angle_Calc([295, 70, 195], 0)
     print(angle1)
