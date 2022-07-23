@@ -1,10 +1,13 @@
+# extractJSONFile.py
+# This is an extraction file to retrieve data from the JSON file
+
 import json
 
 
 def retrieve_Data():
     dataArray = [0] * 22  # this array will store the data from the JSON file
 
-    print("CONNECTED TO ~~~ getDataFile")
+    print("CONNECTED TO ~~~ extractJSONFile.py")
 
     # Opening JSON file
     with open('data.json') as json_file:
@@ -63,8 +66,20 @@ def retrieve_Data():
             #  incrementing the loop counter to access the other data
             loopCounter += 11
 
-    return dataArray
+    # this portion of the code will get the byte array "dataArray" and will decode it into a string format
+    temp_dataArray_storage = [0] * 22
+    message = dataArray
+
+    for x in range(22):
+        convertThisData = message[x]
+        temp_dataArray_storage[x] = convertThisData.decode()  # decodes it as a string and store as an array in "temp_dataArray_storage"
+
+    thisConcatMsg = ' '.join(temp_dataArray_storage)  # this will take the array elements and will join it as a string with a space between each element
+    byte_thisConcatMsg = thisConcatMsg.encode('utf-8')  # this takes "thisConcatMsg" and format it into a byte format
+
+    return byte_thisConcatMsg
 
 
 if __name__ == '__main__':
-    retrieve_Data()
+    print(retrieve_Data())
+
