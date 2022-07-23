@@ -3,29 +3,68 @@
 	"Battery Data": [
 		{
 			"ID": "1",
-			"Capacity": "90",
-			"Energy": "20",
-			"Charge Capacity": "50",
-			"Temperature": "97",
-			"BMS Health": "98",
-			"Total Voltage": "100",
-			"Cell 1 Voltage": "91",
-			"Cell 2 Voltage": "92",
-			"Cell 3 Voltage": "93",
-			"Cell 4 Voltage": "94"
+			"Capacity": "19",
+			"Energy": "18",
+			"Charge Capacity": "17",
+			"Temperature": "16",
+			"BMS Health": "15",
+			"Total Voltage": "14",
+			"Cell 1 Voltage": "13",
+			"Cell 2 Voltage": "12",
+			"Cell 3 Voltage": "11",
+			"Cell 4 Voltage": "10"
 		},
 		{
 			"ID": "2",
-			"Capacity": "87",
-			"Energy": "50",
-			"Charge Capacity": "80",
-			"Temperature": "85",
-			"BMS Health": "91",
-			"Total Voltage": "92",
-			"Cell 1 Voltage": "87",
-			"Cell 2 Voltage": "88",
-			"Cell 3 Voltage": "95",
-			"Cell 4 Voltage": "90"
+			"Capacity": "29",
+			"Energy": "28",
+			"Charge Capacity": "27",
+			"Temperature": "26",
+			"BMS Health": "25",
+			"Total Voltage": "24",
+			"Cell 1 Voltage": "23",
+			"Cell 2 Voltage": "22",
+			"Cell 3 Voltage": "21",
+			"Cell 4 Voltage": "20"
+		},
+		{
+			"ID": "3",
+			"Capacity": "39",
+			"Energy": "38",
+			"Charge Capacity": "37",
+			"Temperature": "36",
+			"BMS Health": "35",
+			"Total Voltage": "34",
+			"Cell 1 Voltage": "33",
+			"Cell 2 Voltage": "32",
+			"Cell 3 Voltage": "31",
+			"Cell 4 Voltage": "30"
+		},
+		{
+			"ID": "4",
+			"Capacity": "49",
+			"Energy": "48",
+			"Charge Capacity": "47",
+			"Temperature": "46",
+			"BMS Health": "45",
+			"Total Voltage": "44",
+			"Cell 1 Voltage": "43",
+			"Cell 2 Voltage": "42",
+			"Cell 3 Voltage": "41",
+			"Cell 4 Voltage": "40"
+		},
+		{
+			"ID": "5",
+			"Capacity": "59",
+			"Energy": "58",
+			"Charge Capacity": "57",
+			"Temperature": "56",
+			"BMS Health": "55",
+			"Total Voltage": "54",
+			"Cell 1 Voltage": "53",
+			"Cell 2 Voltage": "52",
+			"Cell 3 Voltage": "51",
+			"Cell 4 Voltage": "50"
 		}
 	]
 }
