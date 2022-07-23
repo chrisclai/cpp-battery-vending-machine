@@ -5,7 +5,7 @@ import json
 
 
 def retrieve_Data():
-    dataArray = [0] * 22  # this array will store the data from the JSON file
+    dataArray = [0] * 55  # this array will store the data from the JSON file
 
     print("CONNECTED TO ~~~ extractJSONFile.py")
 
@@ -67,10 +67,10 @@ def retrieve_Data():
             loopCounter += 11
 
     # this portion of the code will get the byte array "dataArray" and will decode it into a string format
-    temp_dataArray_storage = [0] * 22
+    temp_dataArray_storage = [0] * 55
     message = dataArray
 
-    for x in range(22):
+    for x in range(55):
         convertThisData = message[x]
         temp_dataArray_storage[x] = convertThisData.decode()  # decodes it as a string and store as an array in "temp_dataArray_storage"
 
