@@ -392,32 +392,6 @@ def simPosCheck(dxl_goal_inputs, dxlIDs):
     
 ##Old Test Cases
 #portInitialization(portname, baudrate, baseID, bicepID, forearmID):
-portInitialization('COM3', [5, 6])
-
-#portInitialization('COM3', 1000000, 1, 3)
-
-dxlSetVelo([0,0], [5,6])
-#dxl_current_velocity = dxlGetVelo()
-#print(dxl_current_velocity)
-
-angles_before = dxlPresAngle([5, 6])
-#print(angles_before)
-
-motorRunWithInputs([200, 300],[5, 6])
-
-angles_after = dxlPresAngle([6])
-angles_after = dxlPresAngle([5])
-
-dxlSetVelo([90,90], [5,6])
-#print(angles_after)
-
-motorRunWithInputs([0,0], [5, 6])
-
-angles_after = dxlPresAngle([5, 6])
-
-portTermination()
-
-#---------------------------------------------2nd test
 portInitialization('/dev/ttyUSB0', [1,2,3,4])
 
 # portInitialization('/dev/ttyUSB0', 1000000, 1, 3)
@@ -430,22 +404,22 @@ angles_before = dxlPresAngle([1,2,3,4])
 #print(angles_before)
 #rest position, [275, 0, 205],  claw parallel, 
 motorRunWithInputs([225, 179, 145, 179],[1,2,3,4])
-time.sleep(30)
+time.sleep(3)
 # [x,y,z] = [205, -70, 215], claw parallel
 motorRunWithInputs([206,177,109,263],[1,2,3,4])
-time.sleep(30)
+time.sleep(3)
 # [x,y,z] = [295, 0 , 205], claws 45 degree
 motorRunWithInputs([225, 145, 155, 249], [1,2,3,4])
-time.sleep(30)
+time.sleep(3)
 # [x,y,z] = [295, 0 , 205], claws parallel, actual: (300,0, 200)
 motorRunWithInputs([225, 170, 157, 177], [1,2,3,4])
-time.sleep(30)
+time.sleep(3)
 # [x,y,z] = [315, 0 , 205], claws parallel, actual: (320, 195)
 motorRunWithInputs([225, 160, 171, 172], [1,2,3,4])
-time.sleep(30)
+time.sleep(3)
 # [x,y,z] = [20, 275 , 205], claws parallel, actual: (0, 200, 205)
 motorRunWithInputs([310, 179, 145, 179], [1,2,3,4])
-time.sleep(30)
+time.sleep(3)
 # [x,y,z] = [245, 50, 195], claws parallel, actual: ()
 motorRunWithInputs([236, 190, 128, 185], [1,2,3,4])
 time.sleep(30)
@@ -464,3 +438,18 @@ time.sleep(30)
 # angles_after = dxlPresAngle([5, 6])
 
 portTermination()
+
+
+
+#motorRunWithInputs([206,110,314,71],[1,2,3,4])
+# angles_after = dxlPresAngle([6])
+# angles_after = dxlPresAngle([5])
+
+# dxlSetVelo([90,90], [5,6])
+# #print(angles_after)
+
+# motorRunWithInputs([0,0], [5, 6])
+
+# angles_after = dxlPresAngle([5, 6])
+
+# portTermination()
