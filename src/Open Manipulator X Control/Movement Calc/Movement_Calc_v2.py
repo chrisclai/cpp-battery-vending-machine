@@ -18,15 +18,15 @@ ELBOW_W_OFFSET = 10                                             # Offset for the
 OUT_OF_RANGE_F = 0
 
 BASE_H_LIMIT = 135                                              # Upper Physical Limit of the Base Motor Theoretical Value
-BASE_L_LIMIT = -135
-SHOULDER_H_LIMIT = 180
-SHOULDER_L_LIMIT = 0
-ELBOW_H_LIMIT = 0
-ELBOW_L_LIMIT = -180
-WRIST_H_LIMIT = 90
-WRIST_L_LIMIT = -90
+BASE_L_LIMIT = -135                                             # Lower Physical Limit of the Base Motor Theoretical Valuev
+SHOULDER_H_LIMIT = 180                                          # Upper Physical Limit of the Shoulder Motor Theoretical Value
+SHOULDER_L_LIMIT = 0                                            # Lower Physical Limit of the Shoulder Motor Theoretical Value
+ELBOW_H_LIMIT = 0                                               # Upper Physical Limit of the Elbow Motor Theoretical Value
+ELBOW_L_LIMIT = -180                                            # Lower Physical Limit of the Elbow Motor Theoretical Value
+WRIST_H_LIMIT = 90                                              # Upper Physical Limit of the Wrist Motor Theoretical Value
+WRIST_L_LIMIT = -90                                             # Lower Physical Limit of the Wrist Motor Theoretical Value
 
-def angle_Calc(coor, CLAW_MODE):                        # coor[] = [Px, Py, Pz]
+def angle_Calc(coor, CLAW_MODE):                                # coor[] = [Px, Py, Pz]
     if (CLAW_MODE == 0):
         phi = 0                                                 # claw parallel to the ground
     elif (CLAW_MODE == 1):
@@ -43,8 +43,18 @@ def angle_Calc(coor, CLAW_MODE):                        # coor[] = [Px, Py, Pz]
     print("r3 = "+ str(Pr) + "\n")
     r2 = Pr - WRIST_DIST*math.cos(math.radians(phi))            # r2 = r3 - a4*cos(phi)
     print("r2 = "+ str(r2) + "\n")
-    def base_Theta():
-        theta1 = math.atan(coor[1]/coor[0])                     # theta1 = arctan(Py/Px) (11)
+    def base_Theta():      
+        if (coor[0] == 0):                                      # if the base theta is 90 or -90 degree
+            if (coor[1] > 0):
+                theta1 = 90
+            else:    theta1 = -90
+        elif (coor[0] < 0):                                     # if base theta is greater than 90 or less than -90
+            if (coor[1] > 0):
+                theta1 = math.atan(coor[1]/coor[0]) + 180
+            else:    theta1 = math.atan(coor[1]/coor[0]) - 180  
+        else:                                                   # if base theta is within [-90,90]
+            theta1 = math.atan(coor[1]/coor[0])                     # theta1 = arctan(Py/Px) (11)
+
         return math.degrees(theta1), theta1
 
     def elbow_Theta():                                          # theta3 calculation (20)
@@ -61,6 +71,8 @@ def angle_Calc(coor, CLAW_MODE):                        # coor[] = [Px, Py, Pz]
         sinTheta2 = ((BICEP_DIST+FOREARM_DIST*math.cos(theta3_R))*z2 - (FOREARM_DIST*math.sin(theta3_R))*r2)/(math.pow(r2, 2) + math.pow(z2, 2))           # sin_theta2 = [(a2 + a3*cos_theta3)z2 - (a3*sin_theta3)r2] / (r^2 + z^2)
         print("sinTheta2 = "+ str(sinTheta2) + "\n")
         theta2 = math.atan(sinTheta2/cosTheta2)
+        # if (theta2 <0):                                          # add offset when theta2 is negative (arm pointing to the ground)
+        #     theta2 = theta2 + math.pi   
         print("theta2 = "+ str(theta2) + "\n")
         return math.degrees(theta2), theta2
 
@@ -73,14 +85,14 @@ def angle_Calc(coor, CLAW_MODE):                        # coor[] = [Px, Py, Pz]
     wristTheta = phi - elbowTheta - shoulderTheta
     print("theta4 = "+ str(wristTheta) + "\n")
 
-    if ((baseTheta < BASE_L_LIMIT) or (baseTheta > BASE_H_LIMIT)):                                                           # setting physical range limit for baseTheta [-135, 135]
-        print("Base angle calculated (%s) is out of physical range [-135, 135]" % (baseTheta))              
+    if ((baseTheta < BASE_L_LIMIT) or (baseTheta > BASE_H_LIMIT)):                                          
+        print("Base angle calculated (%s) is out of physical range [-135, 135]" % (baseTheta))              # setting physical range limit for baseTheta [-135, 135]
         OUT_OF_RANGE_F = 1
     elif ((shoulderTheta < SHOULDER_L_LIMIT) or (shoulderTheta > SHOULDER_H_LIMIT)):
         print("Shoulder angle calculated (%s) is out of physical range [0, 180]" % (shoulderTheta))         # setting physical range limit for shoulderTheta [0, 180]
         OUT_OF_RANGE_F = 1
     elif ((elbowTheta > ELBOW_H_LIMIT) or (elbowTheta < ELBOW_L_LIMIT)):
-        print("Elbow angle calculated (%s) is out of physical range [-180, 0]" % (elbowTheta))            # setting physical range limit for elbowTheta [-180, 0]
+        print("Elbow angle calculated (%s) is out of physical range [-180, 0]" % (elbowTheta))              # setting physical range limit for elbowTheta [-180, 0]
         OUT_OF_RANGE_F = 1   
     elif ((wristTheta > WRIST_H_LIMIT) or (wristTheta < WRIST_L_LIMIT)):
         print("Wrist angle calculated (%s) is out of physical range [-90, 90]" % (wristTheta))              # setting physical range limit for wristTheta [-90, 90]
@@ -97,11 +109,17 @@ def angle_Calc(coor, CLAW_MODE):                        # coor[] = [Px, Py, Pz]
 
 if __name__ == "__main__":
     #angle for the rest position of the arm
-    #angle1 = angle_Calc([275, 0, 205], 0, 0)
+    #angle1 = angle_Calc([275, 0, 205], 0)
 
     #Test coordinate #1: first quadrant, smaller x, higher z
     #angle1 = angle_Calc([205, -70, 215], 2)
 
     #Test coordinate #2: second quadrant, larger x, lower z
-    angle1 = angle_Calc([295, 70, 195], 0)
+    #angle1 = angle_Calc([295, 70, 195], 0)
+
+    #Test coordinate #3: half x from rest, half z from rest, y=0
+    #angle1 = angle_Calc([140, 0, 150], 0)
+
+    #Test coordinate #3: half x from rest, higher z from rest, y=0 ******* Check with the real arm to see if this configuration is physically posibble with the parallel claw
+    angle1 = angle_Calc([140, 0, 220], 0)
     print(angle1)
