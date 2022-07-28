@@ -3,19 +3,13 @@ import math
 #reference link:
 #https://pdfs.semanticscholar.org/56a0/9731772199fe77bcb0dbff3a69f1c623e0c7.pdf
 
-Z_OFFSET = 77                                                   # d1
-BICEP_DIST = 130                                                # a2
-FOREARM_DIST = 124                                              # a3
-WRIST_DIST = 126                                                # a4
+Z_OFFSET = 77                                                   #d1
+BICEP_DIST = 130                                                #a2
+FOREARM_DIST = 124                                              #a3
+WRIST_DIST = 126                                                #a4
 
-BASE_OFFSET = 225                                               # Offset between the theoretical theta1 and actual base angle value
-SHOUDLER_OFFSET = 90                                            # Offset between the theoretical theta2 and actual base angle value 
-ELBOW_OFFSET = 225                                              # Offset between the theoretical theta3 and actual base angle value 
-WRIST_OFFSET = 180                                              # Offset between the theoretical theta4 and actual base angle value 
 
-ELBOW_W_OFFSET = 10                                             # Offset for the elbow motor to account for the weight pulling the forearm down
-
-def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                  # coor[] = [Px, Py, Pz]
+def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                                # coor[] = [Px, Py, Pz]
     if (CLAW_MODE == 0):
         phi = 0                                                 # claw parallel to the ground
     elif (CLAW_MODE == 1):
@@ -56,8 +50,8 @@ def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                  # coor[] = [Px, 
 
     baseTheta, baseTheta_R = base_Theta()   
     Theta3, Theta3_R = elbow_Theta()
-    if (FOREARM_MODE == 0):                                     # forearm_mode = 0 -> negative theta3 (forearm points down)
-        Theta3 = -Theta3                                        # forearm_mode = 1 -> positive theta3 (forearm points up)
+    if (FOREARM_MODE == 0):                                 # forearm_mode = 0 -> negative theta3 (forearm points down)
+        Theta3 = -Theta3                                    # forearm_mode = 1 -> positive theta3 (forearm points up)
         Theta3_R = -Theta3_R
     elbowTheta = Theta3 - 11
     Theta2, Theta2_R = shoulder_Theta(Theta3_R)
@@ -65,11 +59,10 @@ def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                  # coor[] = [Px, 
     wristTheta = phi - elbowTheta - shoulderTheta
     print("theta4 = "+ str(wristTheta) + "\n")
 
-    return [int(baseTheta+BASE_OFFSET), int(shoulderTheta+SHOUDLER_OFFSET), int(elbowTheta+ELBOW_OFFSET+ELBOW_W_OFFSET), int(wristTheta+WRIST_OFFSET)]
+    return [int(baseTheta), int(shoulderTheta), int(elbowTheta), int(wristTheta)]
 
 if __name__ == "__main__":
-    #angle for the rest position of the arm
+    #rest coordinates
     #angle1 = angle_Calc([275, 0, 205], 0, 0)
-
-    angle1 = angle_Calc([205, -70, 215], 0, 2)
+    angle1 = angle_Calc([200, -70, 215], 0, 2)
     print(angle1)
