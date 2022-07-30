@@ -151,16 +151,17 @@ t_cell_2_voltage_list = [float(battery_id1[8]), float(battery_id2[8]), float(bat
 t_cell_3_voltage_list = [float(battery_id1[9]), float(battery_id2[9]), float(battery_id3[9]), float(battery_id4[9]), float(battery_id5[9])]
 t_cell_4_voltage_list = [float(battery_id1[10]), float(battery_id2[10]), float(battery_id3[10]), float(battery_id4[10]), float(battery_id5[10])]
 
+### [FIX]: Python 3 is unable to concatenate floats to strings. Cast the sum to a string before combining it into a singular string.
 battery_totals = tk.Label(total_canv_right,
-                text = sum(t_capacity_list)
-                    + "\n" + sum(t_energy_list)
-                    + "\n" + sum(t_charge_capacity_list)
-                    + "\n" + sum(t_avg_temp_list)/len(t_avg_temp_list)
-                    + "\n" + sum(t_voltage_list)
-                    + "\n" + sum(t_cell_1_voltage_list)
-                    + "\n" + sum(t_cell_2_voltage_list)
-                    + "\n" + sum(t_cell_3_voltage_list)
-                    + "\n" + sum(t_cell_4_voltage_list)
+                text = str(sum(t_capacity_list))
+                    + "\n" + str(sum(t_energy_list))
+                    + "\n" + str(sum(t_charge_capacity_list))
+                    + "\n" + str(sum(t_avg_temp_list)/len(t_avg_temp_list))
+                    + "\n" + str(sum(t_voltage_list))
+                    + "\n" + str(sum(t_cell_1_voltage_list))
+                    + "\n" + str(sum(t_cell_2_voltage_list))
+                    + "\n" + str(sum(t_cell_3_voltage_list))
+                    + "\n" + str(sum(t_cell_4_voltage_list))
                     , font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
 battery_totals.place(relx=0.85,rely=0.078,anchor='center')
 
@@ -173,8 +174,10 @@ camera_title.place(relx=0.50,rely=0.45,anchor='center')
 # TOGGLE ARROW FUNCTION
 
 # THIS IS AN ATTEMPT TO MAKE THE ARROWS WORK
+### [FIX] Local variable "clickCounter" referenced before assignment. This can be fixed by making clickCounter global.
 clickCounter = 0
 def toggle_right():
+    global clickCounter
     clickCounter = clickCounter + 1
     if clickCounter == 1:
        b1_data = tk.Label(battery_canv_left, 
@@ -214,13 +217,14 @@ button_retrieve.place(relx=0.603,rely=0.78,anchor='center')
 button_exit = tk.Button(main_canv, command= root.destroy, width = 17, height = 2, highlightthickness=0, bg='royalblue', text = "EXIT", font = ('courier new', 10), fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
 button_exit.place(relx=0.503,rely=0.9,anchor='center')
 
-while 1:
-    button_right = tk.Button(battery_canv_left, command = toggle_right(), width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "-->",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
-    button_right.place(relx=0.9,rely= 0.94,anchor='center')
+### [FIX] Remove timing loop! Do not mess with tkinter's python timing sequence, they're based on event calls and are VERY SENSITIVE!
+#while 1:
+button_right = tk.Button(battery_canv_left, command = toggle_right(), width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "-->",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
+button_right.place(relx=0.9,rely= 0.94,anchor='center')
 
-    # Placeholder command for button_left
-    button_left = tk.Button(battery_canv_left, command= root.destroy, width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "<--",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
-    button_left.place(relx=0.09,rely= 0.94,anchor='center')
+# Placeholder command for button_left
+button_left = tk.Button(battery_canv_left, command= root.destroy, width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "<--",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
+button_left.place(relx=0.09,rely= 0.94,anchor='center')
 
 
 # SHOW ACTUAL WINDOW
