@@ -212,11 +212,11 @@ button_exit = tk.Button(main_canv, command= root.destroy, width = 17, height = 2
 button_exit.place(relx=0.503,rely=0.9,anchor='center')
 
 
-button_right = tk.Button(main_canv, command = updateData(), width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "-->",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
+button_right = tk.Button(battery_frame_left, command = root.destroy, width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "-->",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
 button_right.place(relx=0.9,rely= 0.94,anchor='center')
 
 
-button_left = tk.Button(main_canv, command= updateData(), width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "<--",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
+button_left = tk.Button(battery_frame_left, command= root.destroy, width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "<--",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
 button_left.place(relx=0.09,rely= 0.94,anchor='center')
 
 # SHOW ACTUAL WINDOW
