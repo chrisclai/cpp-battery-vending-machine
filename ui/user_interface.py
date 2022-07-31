@@ -68,7 +68,6 @@ main_canv = tk.Canvas(root, height=HEIGHT, width=WIDTH, bg='midnightblue', highl
 main_canv.pack()
 main_canv.focus_set()
 
-
 # LABEL
 title = tk.Label(main_canv, text="CPP Battery Vending Machine", font=('verdana',25,'bold'), justify='center', bg='midnightblue', fg='#149dca')
 title.place(relx=0.5,rely=0.05,anchor='center')
@@ -85,55 +84,78 @@ battery_title.place(relx=0.155,rely=0.2,anchor='center')
 total_title = tk.Label(main_canv, text="Total BMS Data", font=('courier new',15), justify='center', bg='midnightblue', fg='white')
 total_title.place(relx=0.84,rely=0.2,anchor='center')
 
+# FRAMES
+battery_frame_left = tk.Frame(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
+battery_frame_left.place(x=15, y=150, anchor='nw')
+
 # CANVAS
-battery_canv_left = tk.Canvas(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
-battery_canv_left.place(x=15, y=150, anchor='nw')
+bat_data_left = tk.Canvas(battery_frame_left, width=35, height=385, highlightthickness=0, bg='midnightblue')   
+bat_data_left.place(x=215, y=29, anchor='nw')
 
 total_canv_right = tk.Canvas(main_canv, width=255, height=490, highlightthickness=0, bg='royalblue4')   
-total_canv_right.place(x=635, y=150, anchor='nw')
+total_canv_right.place(x=635, y=149, anchor='nw')
 
 camera_canv = tk.Canvas(main_canv, width=333, height=300, highlightthickness=0, bg='royalblue4')   
 camera_canv.place(x=287, y=150, anchor='nw')
 
+# CLASS LABEL
+class tkLabelUnit:
+    def __init__(self, master=root, str='text', val=0.01, unit='m', list=0, offsetX=0):
+        self.label = tk.Label(master, text=str, bg='black', fg='mint cream', font=('garamond',11,), justify='right')
+        self.label.place(x=LABEL_BEGIN_X+offsetX, y=LABEL_BEGIN_Y+list*OFFSET, anchor='ne')
+
+        self.value = tk.Label(master, text=val, bg='black', fg='mint cream', font=('garamond',11,), justify='right')
+        self.value.place(x=LABEL_BEGIN_X+VALUE_OFFSET+offsetX,y=LABEL_BEGIN_Y+list*OFFSET, anchor='ne')
+
+        self.unit = tk.Label(master, text=unit, bg='black', fg='mint cream', font=('garamond',11,),justify='left')
+        self.unit.place(x=LABEL_BEGIN_X+UNIT_OFFSET+offsetX,y=LABEL_BEGIN_Y+list*OFFSET, anchor='nw')
+
+
+# BATTERY DATA 
+b_data_ID = tkLabelUnit(master=bat_data_left, str='ID', val="Error", unit='m', list=0)
+b_data_capacity = tkLabelUnit(master=bat_data_left, str='Capacity', val="Error", unit='%', list=1)
+b_data_energy = tkLabelUnit(master=bat_data_left, str='Energy', val="Error", unit='wH', list=2)
+b_data_charge_capacity = tkLabelUnit(master=bat_data_left, str='Charge Capacity', val="Error", unit='mAH', list=3)
+b_data_temperature = tkLabelUnit(master=bat_data_left, str='Temperature', val="Error", unit='C', list=4)
+b_data_health = tkLabelUnit(master=bat_data_left, str='BMS Health', val="Error", unit='%', list=5)
+b_data_total_v = tkLabelUnit(master=bat_data_left, str='Total Volatage', val="Error", unit='V', list=6)
+b_data_cell_1_v = tkLabelUnit(master=bat_data_left, str='Cell 1 Voltage', val="Error", unit='V', list=7)
+b_data_cell_2_v = tkLabelUnit(master=bat_data_left, str='Cell 2 Voltage', val="Error", unit='V', list=8)
+b_data_cell_3_v = tkLabelUnit(master=bat_data_left, str='Cell 3 Voltage', val="Error", unit='V', list=9)
+b_data_cell_4_v = tkLabelUnit(master=bat_data_left, str='Cell 4 Voltage', val="Error", unit='V', list=10)
+
+counter = 0
+# UPDATE FUNCTION
+def updateData():
+    global counter
+    counter = counter + 1
+    str(int(counter))
+    global nums
+    nums = [0] * 11
+
+    # Update Battery Values (If counter changes, different data from a separate battery will be accessed and shown on the
+    # screen
+    b_data_ID.value['text'] = nums[str(counter)][0]
+    b_data_capacity.value['text'] = nums[str(counter)][1]
+    b_data_energy.value['text'] = nums[str(counter)][2]
+    b_data_charge_capacity .value['text'] = nums[str(counter)][3]
+    b_data_temperature.value['text'] = nums[str(counter)][4]
+    b_data_health.value['text'] = nums[str(counter)][5]
+    b_data_total_v.value['text'] = nums[str(counter)][6]
+    b_data_cell_1_v.value['text'] = nums[str(counter)][7]
+    b_data_cell_2_v.value['text'] = nums[str(counter)][8]
+    b_data_cell_3_v.value['text'] = nums[str(counter)][9]
+    b_data_cell_4_v.value['text'] = nums[str(counter)][10]
+ 
+    root.after(REFRESH_RATE, updateData)
+
 
 # CANVAS LABELS
-battery_data_titles = tk.Label(battery_canv_left, 
+battery_data_titles = tk.Label(battery_frame_left, 
                     text = "Battery ID" + "\n" + "\n" + "Capacity" + "\n" + "\n" + "Energy" + "\n" + "\n" + "Charge Capacity" + "\n" + "\n" + "Temperature" + "\n" + "\n" + "Battery Health Grade" + "\n" + "\n" + "Total Voltage"+ "\n" + "\n" + "Cell 1 Voltage" + "\n" + "\n" + "Cell 2 Voltage"+ "\n" + "\n" + "Cell 3 Voltage" + "\n" + "\n" + "Cell 4 Voltage",
                     font=('courier new', 12, BOLD), justify='left', bg='midnightblue', fg='red')
 battery_data_titles.place(relx=0.42,rely=0.45,anchor='center')
 
-#########################
-b5_data = tk.Label(battery_canv_left, 
-                   text = battery_id5[0] + "\n" + "\n" + battery_id5[1] + "\n" + "\n" + battery_id5[2] + "\n" + "\n" + battery_id5[3] + "\n" + "\n" + battery_id5[4] + "\n" + "\n" + battery_id5[5] + "\n" + "\n" + battery_id5[6] + "\n" + "\n" + battery_id5[7] + "\n" + "\n" + battery_id5[8] + "\n" + "\n" + battery_id5[9] + "\n" + "\n" + battery_id5[10],
-                   font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-b5_data.place(relx=0.92,rely=0.45,anchor='center')
-#########################
-
-b4_data = tk.Label(battery_canv_left, 
-                    text = battery_id4[0] + "\n" + "\n" + battery_id4[1] + "\n" + "\n" + battery_id4[2] + "\n" + "\n" + battery_id4[3] + "\n" + "\n" + battery_id4[4] + "\n" + "\n" + battery_id4[5] + "\n" + "\n" + battery_id4[6] + "\n" + "\n" + battery_id4[7] + "\n" + "\n" + battery_id4[8] + "\n" + "\n" + battery_id4[9] + "\n" + "\n" + battery_id4[10],
-                    font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-b4_data.place(relx=0.92,rely=0.45,anchor='center')
-#########################
-
-b3_data = tk.Label(battery_canv_left, 
-                    text = battery_id3[0] + "\n" + "\n" + battery_id3[1] + "\n" + "\n" + battery_id3[2] + "\n" + "\n" + battery_id3[3] + "\n" + "\n" + battery_id3[4] + "\n" + "\n" + battery_id3[5] + "\n" + "\n" + battery_id3[6] + "\n" + "\n" + battery_id3[7] + "\n" + "\n" + battery_id3[8] + "\n" + "\n" + battery_id3[9] + "\n" + "\n" + battery_id3[10],
-                    font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-b3_data.place(relx=0.92,rely=0.45,anchor='center')
-
-
-#########################
-b2_data = tk.Label(battery_canv_left, 
-                    text = battery_id2[0] + "\n" + "\n" + battery_id2[1] + "\n" + "\n" + battery_id2[2] + "\n" + "\n" + battery_id2[3] + "\n" + "\n" + battery_id2[4] + "\n" + "\n" + battery_id2[5] + "\n" + "\n" + battery_id2[6] + "\n" + "\n" + battery_id2[7] + "\n" + "\n" + battery_id2[8] + "\n" + "\n" + battery_id2[9] + "\n" + "\n" + battery_id2[10],
-                    font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-b2_data.place(relx=0.92,rely=0.45,anchor='center')
-
-#########################
-b1_data = tk.Label(battery_canv_left, 
-                    text = battery_id1[0] + "\n" + "\n" + battery_id1[1] + "\n" + "\n" + battery_id1[2] + "\n" + "\n" + battery_id1[3] + "\n" + "\n" + battery_id1[4] + "\n" + "\n" + battery_id1[5] + "\n" + "\n" + battery_id1[6] + "\n" + "\n" + battery_id1[7] + "\n" + "\n" + battery_id1[8] + "\n" + "\n" + battery_id1[9] + "\n" + "\n" + battery_id1[10],
-                    font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-b1_data.place(relx=0.92,rely=0.45,anchor='center')
-
-#########################
 
 total_BMS_titles = tk.Label(total_canv_right, 
                     text = "Capacity" + "\n" + "\n" + "Energy" + "\n" + "\n" + "Charge Capacity" + "\n" + "\n" + "Average Temp." + "\n" + "\n" + "Total Voltage"+ "\n" + "\n" + "Cell 1 Voltage" + "\n" + "\n" + "Cell 2 Voltage"+ "\n" + "\n" + "Cell 3 Voltage" + "\n" + "\n" + "Cell 4 Voltage",
@@ -152,56 +174,30 @@ t_cell_3_voltage_list = [float(battery_id1[9]), float(battery_id2[9]), float(bat
 t_cell_4_voltage_list = [float(battery_id1[10]), float(battery_id2[10]), float(battery_id3[10]), float(battery_id4[10]), float(battery_id5[10])]
 
 battery_totals = tk.Label(total_canv_right,
-                text = sum(t_capacity_list)
-                    + "\n" + sum(t_energy_list)
-                    + "\n" + sum(t_charge_capacity_list)
-                    + "\n" + sum(t_avg_temp_list)/len(t_avg_temp_list)
-                    + "\n" + sum(t_voltage_list)
-                    + "\n" + sum(t_cell_1_voltage_list)
-                    + "\n" + sum(t_cell_2_voltage_list)
-                    + "\n" + sum(t_cell_3_voltage_list)
-                    + "\n" + sum(t_cell_4_voltage_list)
+                text = str(sum(t_capacity_list))
+                    + "\n"
+                    + "\n" + str(sum(t_energy_list))
+                    + "\n"
+                    + "\n" + str(sum(t_charge_capacity_list))
+                    + "\n"
+                    + "\n" + str(sum(t_avg_temp_list)/len(t_avg_temp_list))
+                    + "\n"
+                    + "\n" + str(sum(t_voltage_list))
+                    + "\n"
+                    + "\n" + str(sum(t_cell_1_voltage_list))
+                    + "\n"
+                    + "\n" + str(sum(t_cell_2_voltage_list))
+                    + "\n"
+                    + "\n" + str(sum(t_cell_3_voltage_list))
+                    + "\n"
+                    + "\n" + str(sum(t_cell_4_voltage_list))
                     , font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-battery_totals.place(relx=0.85,rely=0.078,anchor='center')
+battery_totals.place(relx=0.81,rely=0.37,anchor='center')
 
 
 # PLACEHOLDER TEXT FOR CAMERA DISPLAY 
 camera_title = tk.Label(main_canv, text="Placeholder for camera display", font=('courier new',10), justify='center', bg='midnightblue', fg='white')
 camera_title.place(relx=0.50,rely=0.45,anchor='center')
-
-
-# TOGGLE ARROW FUNCTION
-
-# THIS IS AN ATTEMPT TO MAKE THE ARROWS WORK
-clickCounter = 0
-def toggle_right():
-    clickCounter = clickCounter + 1
-    if clickCounter == 1:
-       b1_data = tk.Label(battery_canv_left, 
-                    text = battery_id1[0] + "\n" + "\n" + battery_id1[1] + "\n" + "\n" + battery_id1[2] + "\n" + "\n" + battery_id1[3] + "\n" + "\n" + battery_id1[4] + "\n" + "\n" + battery_id1[5] + "\n" + "\n" + battery_id1[6] + "\n" + "\n" + battery_id1[7] + "\n" + "\n" + battery_id1[8] + "\n" + "\n" + battery_id1[9] + "\n" + "\n" + battery_id1[10],
-                    font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-       b1_data.place(relx=0.92,rely=0.45,anchor='center') 
-    elif clickCounter == 2:
-        b2_data = tk.Label(battery_canv_left, 
-                    text = battery_id2[0] + "\n" + "\n" + battery_id2[1] + "\n" + "\n" + battery_id2[2] + "\n" + "\n" + battery_id2[3] + "\n" + "\n" + battery_id2[4] + "\n" + "\n" + battery_id2[5] + "\n" + "\n" + battery_id2[6] + "\n" + "\n" + battery_id2[7] + "\n" + "\n" + battery_id2[8] + "\n" + "\n" + battery_id2[9] + "\n" + "\n" + battery_id2[10],
-                    font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-        b2_data.place(relx=0.92,rely=0.45,anchor='center')
-    elif clickCounter == 3:
-        b3_data = tk.Label(battery_canv_left, 
-                    text = battery_id3[0] + "\n" + "\n" + battery_id3[1] + "\n" + "\n" + battery_id3[2] + "\n" + "\n" + battery_id3[3] + "\n" + "\n" + battery_id3[4] + "\n" + "\n" + battery_id3[5] + "\n" + "\n" + battery_id3[6] + "\n" + "\n" + battery_id3[7] + "\n" + "\n" + battery_id3[8] + "\n" + "\n" + battery_id3[9] + "\n" + "\n" + battery_id3[10],
-                    font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-        b3_data.place(relx=0.92,rely=0.45,anchor='center')
-    elif clickCounter == 4:
-        b4_data = tk.Label(battery_canv_left, 
-                    text = battery_id4[0] + "\n" + "\n" + battery_id4[1] + "\n" + "\n" + battery_id4[2] + "\n" + "\n" + battery_id4[3] + "\n" + "\n" + battery_id4[4] + "\n" + "\n" + battery_id4[5] + "\n" + "\n" + battery_id4[6] + "\n" + "\n" + battery_id4[7] + "\n" + "\n" + battery_id4[8] + "\n" + "\n" + battery_id4[9] + "\n" + "\n" + battery_id4[10],
-                    font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-        b4_data.place(relx=0.92,rely=0.45,anchor='center')
-    elif clickCounter == 5:
-        b5_data = tk.Label(battery_canv_left, 
-                   text = battery_id5[0] + "\n" + "\n" + battery_id5[1] + "\n" + "\n" + battery_id5[2] + "\n" + "\n" + battery_id5[3] + "\n" + "\n" + battery_id5[4] + "\n" + "\n" + battery_id5[5] + "\n" + "\n" + battery_id5[6] + "\n" + "\n" + battery_id5[7] + "\n" + "\n" + battery_id5[8] + "\n" + "\n" + battery_id5[9] + "\n" + "\n" + battery_id5[10],
-                   font=('courier new', 12, BOLD), justify='center', bg='midnightblue', fg='red')
-        b5_data.place(relx=0.92,rely=0.45,anchor='center')
-        clickCounter == 0
 
 
 # BUTTONS
@@ -214,14 +210,13 @@ button_retrieve.place(relx=0.603,rely=0.78,anchor='center')
 button_exit = tk.Button(main_canv, command= root.destroy, width = 17, height = 2, highlightthickness=0, bg='royalblue', text = "EXIT", font = ('courier new', 10), fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
 button_exit.place(relx=0.503,rely=0.9,anchor='center')
 
-while 1:
-    button_right = tk.Button(battery_canv_left, command = toggle_right(), width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "-->",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
-    button_right.place(relx=0.9,rely= 0.94,anchor='center')
 
-    # Placeholder command for button_left
-    button_left = tk.Button(battery_canv_left, command= root.destroy, width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "<--",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
-    button_left.place(relx=0.09,rely= 0.94,anchor='center')
+button_right = tk.Button(main_canv, command = updateData(), width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "-->",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
+button_right.place(relx=0.9,rely= 0.94,anchor='center')
 
+
+button_left = tk.Button(main_canv, command= updateData(), width = 5, height = 1, highlightthickness=0, bg='royalblue', text = "<--",  fg = 'white', activeforeground = "red",activebackground = "light grey", pady=10)
+button_left.place(relx=0.09,rely= 0.94,anchor='center')
 
 # SHOW ACTUAL WINDOW
 root.mainloop()
