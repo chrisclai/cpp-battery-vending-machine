@@ -173,6 +173,7 @@ t_cell_2_voltage_list = [float(battery_id1[8]), float(battery_id2[8]), float(bat
 t_cell_3_voltage_list = [float(battery_id1[9]), float(battery_id2[9]), float(battery_id3[9]), float(battery_id4[9]), float(battery_id5[9])]
 t_cell_4_voltage_list = [float(battery_id1[10]), float(battery_id2[10]), float(battery_id3[10]), float(battery_id4[10]), float(battery_id5[10])]
 
+### [FIX]: Python 3 is unable to concatenate floats to strings. Cast the sum to a string before combining it into a singular string.
 battery_totals = tk.Label(total_canv_right,
                 text = str(sum(t_capacity_list))
                     + "\n"
