@@ -26,25 +26,27 @@ def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                                # 
     print("r3 = "+ str(Pr) + "\n")
     r2 = Pr - WRIST_DIST*math.cos(math.radians(phi))            # r2 = r3 - a4*cos(phi)
     print("r2 = "+ str(r2) + "\n")
+
     def base_Theta():
         theta1 = math.atan(coor[1]/coor[0])                     # theta1 = arctan(Py/Px) (11)
+        print("theta1 = "+ str(math.degrees(theta1)) + "\n")
         return math.degrees(theta1), theta1
 
     def elbow_Theta():                                          # theta3 calculation (20)
         cosTheta3 = (math.pow(r2, 2) + math.pow(z2, 2) - (math.pow(BICEP_DIST, 2) + math.pow(FOREARM_DIST, 2)))/(2*BICEP_DIST*FOREARM_DIST)                 # cos_theta3 = [(r2)^2 + (z2)^2 - ((a2)^2 + (a3)^2)] / (2*a2*a3)
         print("cosTheta3 = "+ str(cosTheta3) + "\n")
         theta3 = math.acos(cosTheta3)                           # theta3 = arccos(cos_theta3)
-        print("theta3 = "+ str(theta3) + "\n")
+        print("theta3 = "+ str(math.degrees(theta3)) + "\n")
         return math.degrees(theta3), theta3
 
     def shoulder_Theta(theta3_R):
         
         cosTheta2 = ((BICEP_DIST+FOREARM_DIST*math.cos(theta3_R))*r2 + (FOREARM_DIST*math.sin(theta3_R))*z2)/(math.pow(r2, 2) + math.pow(z2, 2))           # cos_theta2 = [(a2 + a3*cos_theta3)r2 + (a3*sin_theta3)z2] / (r^2 + z^2)
-        print("cosTheta3 = "+ str(cosTheta2) + "\n")
+        print("cosTheta2 = "+ str(cosTheta2) + "\n")
         sinTheta2 = ((BICEP_DIST+FOREARM_DIST*math.cos(theta3_R))*z2 - (FOREARM_DIST*math.sin(theta3_R))*r2)/(math.pow(r2, 2) + math.pow(z2, 2))           # sin_theta2 = [(a2 + a3*cos_theta3)z2 - (a3*sin_theta3)r2] / (r^2 + z^2)
         print("sinTheta2 = "+ str(sinTheta2) + "\n")
         theta2 = math.atan(sinTheta2/cosTheta2)
-        print("theta2 = "+ str(theta2) + "\n")
+        print("theta2 = "+ str(math.degrees(theta2)) + "\n")
         return math.degrees(theta2), theta2
 
 
@@ -63,6 +65,6 @@ def angle_Calc(coor, FOREARM_MODE, CLAW_MODE):                                # 
 
 if __name__ == "__main__":
     #rest coordinates
-    #angle1 = angle_Calc([275, 0, 205], 0, 0)
-    angle1 = angle_Calc([200, -70, 215], 0, 2)
+    # angle1 = angle_Calc([275, 0, 205], 0, 0)
+    angle1 = angle_Calc([205, -70, 215], 1, 0)
     print(angle1)

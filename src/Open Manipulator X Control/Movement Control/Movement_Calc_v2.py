@@ -68,12 +68,12 @@ def angle_Calc(coor, CLAW_MODE):                                # coor[] = [Px, 
     def shoulder_Theta(theta3_R):
         
         cosTheta2 = ((BICEP_DIST+FOREARM_DIST*math.cos(theta3_R))*r2 + (FOREARM_DIST*math.sin(theta3_R))*z2)/(math.pow(r2, 2) + math.pow(z2, 2))           # cos_theta2 = [(a2 + a3*cos_theta3)r2 + (a3*sin_theta3)z2] / (r^2 + z^2)
-        print("cosTheta3 = "+ str(cosTheta2) + "\n")
+        print("cosTheta2 = "+ str(cosTheta2) + "\n")
         sinTheta2 = ((BICEP_DIST+FOREARM_DIST*math.cos(theta3_R))*z2 - (FOREARM_DIST*math.sin(theta3_R))*r2)/(math.pow(r2, 2) + math.pow(z2, 2))           # sin_theta2 = [(a2 + a3*cos_theta3)z2 - (a3*sin_theta3)r2] / (r^2 + z^2)
         print("sinTheta2 = "+ str(sinTheta2) + "\n")
         theta2 = math.atan(sinTheta2/cosTheta2)
-        # if (theta2 <0):                                          # add offset when theta2 is negative (arm pointing to the ground)
-        #     theta2 = theta2 + math.pi   
+        if (theta2 <0):                                          # add offset when theta2 is negative (arm pointing to the ground)
+            theta2 = theta2 + math.pi   
         print("theta2 = "+ str(math.degrees(theta2)) + "\n")
         return math.degrees(theta2), theta2
 
@@ -108,15 +108,16 @@ def angle_Calc(coor, CLAW_MODE):                                # coor[] = [Px, 
     else:
         return [int(baseTheta+BASE_OFFSET), int(shoulderTheta+SHOUDLER_OFFSET), int(elbowTheta+ELBOW_OFFSET+ELBOW_W_OFFSET), int(wristTheta+WRIST_OFFSET)]
 
+
 # if __name__ == "__main__":
     #angle for the rest position of the arm
     #angle1 = angle_Calc([275, 0, 205], 0)
 
     #Test coordinate #1: first quadrant, smaller x, higher z
-    # angle1 = angle_Calc([205, -70, 215], 2)
+    #angle1 = angle_Calc([205, -70, 215], 2)
 
     #Test coordinate #2: second quadrant, larger x, lower z
-    # angle1 = angle_Calc([295, 0, 205], 0)
+    #angle1 = angle_Calc([295, 70, 195], 0)
 
     #Test coordinate #3: half x from rest, half z from rest, y=0
     #angle1 = angle_Calc([140, 0, 150], 0)
